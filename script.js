@@ -1,3 +1,4 @@
+
 const loginContainer = document.getElementById('login-container');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
@@ -68,6 +69,7 @@ createListBtn.addEventListener('click', () => {
 
 listSelect.addEventListener('change', loadTasks);
 
+
 form.addEventListener('submit', function(e) {
     e.preventDefault();
     const text = input.value.trim();
@@ -108,7 +110,6 @@ function addTodo(text, completed) {
     li.appendChild(deleteBtn);
     list.appendChild(li);
 }
-
 function showLogin() {
     loginContainer.style.display = 'block';
     todoSection.style.display = 'none';

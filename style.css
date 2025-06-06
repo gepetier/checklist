@@ -8,7 +8,6 @@ body {
     align-items: flex-start;
     min-height: 100vh;
 }
-
 .hidden {
     display: none;
 }
@@ -31,6 +30,7 @@ body {
 .error {
     color: #e74c3c;
 }
+
 
 .todo-container {
     background: #fff;
@@ -101,7 +101,6 @@ button:hover {
 .delete-btn:hover {
     background: #c0392b;
 }
-
 .logout-btn {
     float: right;
     background: #555;
