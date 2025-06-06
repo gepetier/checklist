@@ -4,36 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Tasques</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="login-container" class="login-container">
-        <h2>Inicia sessi&oacute;</h2>
-        <form id="login-form">
-            <input type="text" id="username" placeholder="Usuari" required>
-            <input type="password" id="password" placeholder="Contrasenya" required>
-            <button type="submit">Entra</button>
-        </form>
-        <p id="login-error" class="error"></p>
-    </div>
-
-    <div id="todo-section" class="hidden">
-        <div class="todo-container">
-            <h1>La meva llista de tasques</h1>
-            <button id="logout-btn" class="logout-btn">Surt</button>
-            <div class="list-controls">
-                <select id="list-select"></select>
-                <input type="text" id="new-list-name" placeholder="Nom llista">
-                <button id="create-list">Crea</button>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Gestor de Tasques</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <button id="logout-btn" class="btn btn-outline-light d-none">Surt</button>
+                </div>
             </div>
-            <form id="todo-form">
-                <input type="text" id="todo-input" placeholder="Afegeix una tasca" aria-label="Nova tasca" required>
-                <button type="submit">Afegeix</button>
-            </form>
-            <ul id="todo-list"></ul>
+        </div>
+    </nav>
+
+    <!-- Contenidor principal -->
+    <div class="container mt-5 pt-5">
+        <!-- Contenidor de login -->
+        <div id="login-container" class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <h2 class="card-title text-center mb-4">Inicia sessió</h2>
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Usuari</label>
+                                <input type="text" class="form-control" id="username" placeholder="Introdueix el teu nom d'usuari" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contrasenya</label>
+                                <input type="password" class="form-control" id="password" placeholder="Introdueix la teva contrasenya" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Entra</button>
+                        </form>
+                        <p id="login-error" class="text-danger text-center mt-3"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secció de tasques -->
+        <div id="todo-section" class="row justify-content-center d-none">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="card-title mb-0">La meva llista de tasques</h2>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="listMenu" data-bs-toggle="dropdown">
+                                    <i class="bi bi-list"></i> Llistes
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="listMenu">
+                                    <li>
+                                        <div class="dropdown-item">
+                                            <input type="text" id="new-list-name" class="form-control" placeholder="Nom noua llista">
+                                            <button id="create-list" class="btn btn-primary btn-sm mt-2 w-100">Crea llista</button>
+                                        </div>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li id="list-select-container"></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <form id="todo-form" class="mb-4">
+                            <div class="input-group">
+                                <input type="text" id="todo-input" class="form-control" placeholder="Afegeix una tasca" aria-label="Nova tasca" required>
+                                <button class="btn btn-primary" type="submit">Afegeix</button>
+                            </div>
+                        </form>
+
+                        <div class="list-group" id="todo-list"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

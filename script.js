@@ -1,16 +1,16 @@
-
 const loginContainer = document.getElementById('login-container');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
 const todoSection = document.getElementById('todo-section');
+const listSelectContainer = document.getElementById('list-select-container');
 
 const form = document.getElementById('todo-form');
 const input = document.getElementById('todo-input');
 const list = document.getElementById('todo-list');
-const listSelect = document.getElementById('list-select');
 const newListName = document.getElementById('new-list-name');
 const createListBtn = document.getElementById('create-list');
 const logoutBtn = document.getElementById('logout-btn');
+const listMenu = document.getElementById('listMenu');
 
 let currentUser = null;
 
@@ -57,18 +57,21 @@ createListBtn.addEventListener('click', () => {
     if (!lists[name]) {
         lists[name] = [];
         saveUserLists(lists);
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        listSelect.appendChild(option);
-        listSelect.value = name;
+        addListOption(name);
         newListName.value = '';
-        loadTasks();
+        loadTasks(name);
     }
 });
 
-listSelect.addEventListener('change', loadTasks);
-
+function addListOption(name) {
+    const option = document.createElement('div');
+    option.className = 'dropdown-item';
+    option.textContent = name;
+    option.addEventListener('click', () => {
+        loadTasks(name);
+    });
+    listSelectContainer.appendChild(option);
+}
 
 form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -82,12 +85,13 @@ form.addEventListener('submit', function(e) {
 });
 
 function addTodo(text, completed) {
-    const li = document.createElement('li');
-    li.className = 'todo-item';
+    const li = document.createElement('div');
+    li.className = 'list-group-item todo-item';
     if (completed) li.classList.add('completed');
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
+    checkbox.className = 'form-check-input me-2';
     checkbox.checked = completed;
     checkbox.addEventListener('change', () => {
         li.classList.toggle('completed', checkbox.checked);
@@ -98,10 +102,10 @@ function addTodo(text, completed) {
     span.textContent = text;
 
     const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Esborra';
-    deleteBtn.className = 'delete-btn';
+    deleteBtn.className = 'btn btn-danger btn-sm ms-auto';
+    deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
     deleteBtn.addEventListener('click', () => {
-        list.removeChild(li);
+        li.remove();
         saveTasks();
     });
 
@@ -110,68 +114,65 @@ function addTodo(text, completed) {
     li.appendChild(deleteBtn);
     list.appendChild(li);
 }
+
 function showLogin() {
-    loginContainer.style.display = 'block';
-    todoSection.style.display = 'none';
-    loginError.textContent = '';
-    loginForm.reset();
+    loginContainer.classList.remove('d-none');
+    todoSection.classList.add('d-none');
+    logoutBtn.classList.add('d-none');
 }
 
 function showTodoSection(username) {
     currentUser = username;
-    loginContainer.style.display = 'none';
-    todoSection.style.display = 'block';
+    loginContainer.classList.add('d-none');
+    todoSection.classList.remove('d-none');
+    logoutBtn.classList.remove('d-none');
     loadLists();
+    loadTasks();
 }
 
 function loadLists() {
     const lists = getUserLists();
-    listSelect.innerHTML = '';
-    for (const name in lists) {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        listSelect.appendChild(option);
-    }
-    if (listSelect.options.length > 0) {
-        listSelect.value = listSelect.options[0].value;
-        loadTasks();
-    } else {
-        list.innerHTML = '';
+    listSelectContainer.innerHTML = '';
+    Object.keys(lists).forEach(name => {
+        addListOption(name);
+    });
+    if (Object.keys(lists).length > 0) {
+        loadTasks(Object.keys(lists)[0]);
     }
 }
 
-function loadTasks() {
-    list.innerHTML = '';
+function loadTasks(listName) {
     const lists = getUserLists();
-    const tasks = lists[listSelect.value] || [];
-    tasks.forEach(task => addTodo(task.text, task.completed));
+    list.innerHTML = '';
+    (lists[listName] || []).forEach(task => {
+        addTodo(task.text, task.completed);
+    });
+    listMenu.textContent = `<i class="bi bi-list"></i> ${listName || 'Llistes'}`;
 }
 
 function saveTasks() {
     const lists = getUserLists();
-    const tasks = [];
-    document.querySelectorAll('#todo-list .todo-item').forEach(li => {
-        tasks.push({
-            text: li.querySelector('span').textContent,
-            completed: li.classList.contains('completed')
-        });
-    });
-    lists[listSelect.value] = tasks;
+    const selectedList = listMenu.textContent.split(' ')[1];
+    lists[selectedList] = Array.from(list.children).map(li => ({
+        text: li.querySelector('span').textContent,
+        completed: li.classList.contains('completed')
+    }));
     saveUserLists(lists);
 }
 
 function getUserLists() {
-    return JSON.parse(localStorage.getItem('lists_' + currentUser) || '{}');
+    return JSON.parse(localStorage.getItem(`lists_${currentUser}`) || '{}');
 }
 
 function saveUserLists(lists) {
-    localStorage.setItem('lists_' + currentUser, JSON.stringify(lists));
+    localStorage.setItem(`lists_${currentUser}`, JSON.stringify(lists));
 }
 
 async function hashPassword(pw) {
     const encoder = new TextEncoder();
     const data = encoder.encode(pw);
     const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
 }

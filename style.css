@@ -31,7 +31,6 @@ body {
     color: #e74c3c;
 }
 
-
 .todo-container {
     background: #fff;
     padding: 20px;
@@ -75,35 +74,104 @@ button:hover {
 .todo-item {
     display: flex;
     align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
-.todo-item span {
-    flex: 1;
-    margin-left: 8px;
+.todo-item.completed {
+    background-color: #e8f5e9;
 }
 
 .todo-item.completed span {
     text-decoration: line-through;
-    color: #888;
+    color: #666;
 }
 
-.delete-btn {
-    background: #e74c3c;
-    padding: 4px 8px;
-    color: white;
+.todo-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.todo-item button {
+    margin-left: auto;
+    background-color: #dc3545;
     border: none;
+    color: white;
+    padding: 4px 8px;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
-.delete-btn:hover {
-    background: #c0392b;
+.todo-item button:hover {
+    background-color: #c82333;
 }
-.logout-btn {
-    float: right;
-    background: #555;
+
+.todo-item {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-container .card {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.login-container .card-body {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+}
+
+#todo-form .input-group {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-menu {
+    min-width: 250px;
+}
+
+.dropdown-item input {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+    color: #dc3545;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .list-controls {
