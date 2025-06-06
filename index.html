@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tasques</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="login-container" class="login-container">
+        <h2>Inicia sessi&oacute;</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Usuari" required>
+            <input type="password" id="password" placeholder="Contrasenya" required>
+            <button type="submit">Entra</button>
+        </form>
+        <p id="login-error" class="error"></p>
+    </div>
+
+    <div id="todo-section" class="hidden">
+        <div class="todo-container">
+            <h1>La meva llista de tasques</h1>
+            <button id="logout-btn" class="logout-btn">Surt</button>
+            <div class="list-controls">
+                <select id="list-select"></select>
+                <input type="text" id="new-list-name" placeholder="Nom llista">
+                <button id="create-list">Crea</button>
+            </div>
+            <form id="todo-form">
+                <input type="text" id="todo-input" placeholder="Afegeix una tasca" aria-label="Nova tasca" required>
+                <button type="submit">Afegeix</button>
+            </form>
+            <ul id="todo-list"></ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
