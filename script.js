@@ -56,8 +56,9 @@ createListBtn.addEventListener('click', () => {
     const lists = getUserLists();
     if (!lists[name]) {
         lists[name] = [];
-        saveUserLists(lists);
-        const option = document.createElement('option');
+    li.className = 'todo-item list-group-item d-flex align-items-center';
+    checkbox.className = 'form-check-input me-2';
+    deleteBtn.className = 'btn btn-danger btn-sm ms-2 delete-btn';
         option.value = name;
         option.textContent = name;
         listSelect.appendChild(option);
